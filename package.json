@@ -1,0 +1,47 @@
+{
+    "name": "LsORM",
+    "version": "1.0.0",
+    "main": "dist/LsORM.js",
+    "module": "dist/LsORM.esm.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "build": "rollup -c --bundleConfigAsCjs",
+        "watch": "rollup -c -w --bundleConfigAsCjs",
+        "prepublishOnly": "npm run build",
+        "test": "jest"
+    },
+    "keywords": [
+        "orm", "local-storage", "database", "javascript", "typescript", "query", "crud", "schema",
+        "relationships", "client-side-database", "ls-orm", "offline-storage", "local-db", "storage-solution"
+    ],
+    "author": "Mr NJIFANDA",
+    "license": "MIT License",
+    "description": "A simple database layer for localStorage",
+    "private": false,
+    "devDependencies": {
+        "@rollup/plugin-commonjs": "^26.0.1",
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@rollup/plugin-typescript": "^11.1.6",
+        "@types/crypto-js": "^4.2.2",
+        "@types/jest": "^29.5.12",
+        "@types/jsdom": "^21.1.7",
+        "@types/node": "^20.14.12",
+        "jest": "^29.7.0",
+        "jsdom": "^24.1.1",
+        "rollup": "^4.19.1",
+        "ts-jest": "^29.2.3",
+        "typescript": "^5.5.4"
+    },
+    "dependencies": {
+        "crypto-js": "^4.2.0",
+        "save-dev": "^0.0.1-security",
+        "tslib": "^2.6.3"
+    }
+}

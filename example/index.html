@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management</title>
+    <link rel="stylesheet" href="/example/assets/css/style.css">
+</head>
+<body>
+    <h1>Library Management (Test LsORM)</h1>
+
+    <div class="d-flex">
+        <div class="form-card">
+            <div class="form-container">
+                <h2>Add User</h2>
+                <form id="userForm">
+                    <label for="userName">Name:</label>
+                    <input type="text" id="userName" required>
+                    <button type="submit">Add User</button>
+                </form>
+            </div>
+        
+            <div class="form-container">
+                <h2>Add Book</h2>
+                <form id="bookForm">
+                    <label for="bookTitle">Title:</label>
+                    <input type="text" id="bookTitle" required>
+                    <label for="author">Author:</label>
+                    <select id="author" required></select>
+                    <button type="submit">Add Book</button>
+                </form>
+            </div>
+        </div>
+    
+        <div class="" style="background: #fff; padding: 15px;">
+            <div class="table-container">
+                <h2>Users</h2>
+                <table id="usersTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        
+            <div class="table-container">
+                <h2>Books</h2>
+                <table id="booksTable">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>    
+        </div>
+    </div>
+
+    <!-- Modals for Editing -->
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit User</h2>
+            <form id="editUserForm">
+                <label for="editUserName">Name:</label>
+                <input type="text" id="editUserName" required>
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="editBookModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Book</h2>
+            <form id="editBookForm">
+                <label for="editBookTitle">Title:</label>
+                <input type="text" id="editBookTitle" required>
+                <label for="editAuthor">Author:</label>
+                <select id="editAuthor" required></select>
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/dist/LsORM.js"></script>
+    <script src="/example/assets/js/app.js"></script>
+</body>
+</html>
