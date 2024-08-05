@@ -1,9 +1,9 @@
 import { Ls } from "./Ls";
 import { Schema, Record } from "../types/types";
-export declare class LsORM extends Ls {
+export declare class LsWebORM extends Ls {
     private static instance;
     private constructor();
-    static getInstance(name: string, storage: Storage, schema: Schema): LsORM;
+    static getInstance(name: string, storage: Storage, schema: Schema): LsWebORM;
     private validateRecord;
     private getNextId;
     private populateRecord;

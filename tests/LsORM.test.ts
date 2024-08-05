@@ -1,6 +1,6 @@
 import { JSDOM } from "jsdom";
 
-import { LsORM } from '../src/core/LsORM';
+import { LsWebORM } from '../src/core/LsWebORM';
 import { TableNotFoundError } from '../src/errors/TableNotFoundError';
 import { AttributeNotFoundError } from '../src/errors/AttributeNotFoundError';
 import { Schema } from "../src/types/types";
@@ -15,9 +15,9 @@ interface CustomStorage extends Storage {
     key(index: number): string | null;
 }
 
-describe('LsORM', () => {
+describe('LsWebORM', () => {
 
-    let orm: LsORM;
+    let orm: LsWebORM;
     let schema: Schema;
 
     beforeEach(() => {
@@ -42,7 +42,7 @@ describe('LsORM', () => {
             }
         };
 
-        // Initialisation de LsORM avec un localStorage simulé
+        // Initialisation de LsWebORM avec un localStorage simulé
         global.localStorage = {
             storage: {},
             setItem(key: string, value: string) { this.storage[key] = value; },
@@ -53,7 +53,7 @@ describe('LsORM', () => {
             key(index: number) { return Object.keys(this.storage)[index] || null; }
         } as CustomStorage;
 
-        orm = LsORM.getInstance('LibraryDB', global.localStorage, schema);
+        orm = LsWebORM.getInstance('LibraryDB', global.localStorage, schema);
     });
 
     afterEach(() => {

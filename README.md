@@ -1,6 +1,6 @@
-# LsORM
+# LsWebORM
 
-LsORM est une bibliothèque JavaScript légère pour la gestion de bases de données locales utilisant le stockage local (localStorage) du navigateur. Elle permet de définir un schéma de base de données, d'insérer, de mettre à jour, de supprimer et de sélectionner des enregistrements, tout en supportant les relations entre les tables (comme `one-to-one` et `one-to-many`). LsORM est particulièrement utile pour des applications front-end légères ou des prototypes nécessitant une gestion simple des données.
+LsWebORM est une bibliothèque JavaScript légère pour la gestion de bases de données locales utilisant le stockage local (localStorage) du navigateur. Elle permet de définir un schéma de base de données, d'insérer, de mettre à jour, de supprimer et de sélectionner des enregistrements, tout en supportant les relations entre les tables (comme `one-to-one` et `one-to-many`). LsWebORM est particulièrement utile pour des applications front-end légères ou des prototypes nécessitant une gestion simple des données.
 
 ## Table des matières
 
@@ -22,13 +22,13 @@ LsORM est une bibliothèque JavaScript légère pour la gestion de bases de donn
 ## Installation
 
 ```bash
-npm install LsORM
+npm install LsWebORM
 ```
 
-Vous pouvez également inclure LsORM directement via un script dans votre fichier HTML si vous ne souhaitez pas utiliser un gestionnaire de paquets.
+Vous pouvez également inclure LsWebORM directement via un script dans votre fichier HTML si vous ne souhaitez pas utiliser un gestionnaire de paquets.
 
 ```html
-<script src="path/to/LsORM.js"></script>
+<script src="path/to/LsWebORM.js"></script>
 ```
 
 ## Utilisation
@@ -82,7 +82,7 @@ const schema: Schema = {
 Pour initialiser la base de données avec le schéma défini, utilisez la méthode `getInstance`.
 
 ```typescript
-const db = LsORM.getInstance("myDatabase", localStorage, schema);
+const db = LsWebORM.getInstance("myDatabase", localStorage, schema);
 ```
 
 ### Insertion de données
@@ -169,7 +169,7 @@ db.delete("users", { id: 1 });
 
 ### Gestion des relations
 
-LsORM permet de gérer les relations entre les tables et de peupler les enregistrements associés.
+LsWebORM permet de gérer les relations entre les tables et de peupler les enregistrements associés.
 
 - **one-to-one** : Un enregistrement dans une table correspond à un seul enregistrement dans une autre table.
 - **one-to-many** : Un enregistrement dans une table correspond à plusieurs enregistrements dans une autre table.
@@ -178,7 +178,7 @@ LsORM permet de gérer les relations entre les tables et de peupler les enregist
 
 ## Méthodes principales
 
-- `getInstance(name: string, storage: Storage, schema: Schema): LsORM` : Retourne une instance unique de LsORM pour la base de données spécifiée.
+- `getInstance(name: string, storage: Storage, schema: Schema): LsWebORM` : Retourne une instance unique de LsWebORM pour la base de données spécifiée.
 - `addTable(tableSchema: TableSchema): void` : Insère une nouvelle table dans la base de donnée.
 - `addTables(newTables: Schema): void` : Insère plusieurs nouvelles tables dans la base de donnée.
 - `insert(tableName: string, record: Record): void` : Insère un enregistrement dans la table.
@@ -222,4 +222,4 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](http://www.google.com)
 
 ##
 
-**Remarque**: LsORM est conçu pour un usage léger et pour des données temporaires. Il n'est pas recommandé pour des applications nécessitant une gestion complexe des transactions ou des données sensibles. Pour des besoins plus robustes, considérez l'utilisation de bases de données traditionnelles ou d'autres solutions de gestion des données côté client.
+**Remarque**: LsWebORM est conçu pour un usage léger et pour des données temporaires. Il n'est pas recommandé pour des applications nécessitant une gestion complexe des transactions ou des données sensibles. Pour des besoins plus robustes, considérez l'utilisation de bases de données traditionnelles ou d'autres solutions de gestion des données côté client.

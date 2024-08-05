@@ -8,13 +8,13 @@ export default [
         input: 'src/index.ts',
         output: [
             {
-                file: 'dist/LsORM.js',
+                file: 'dist/LsWebORM.js',
                 format: 'umd',
-                name: 'LsORM',
+                name: 'LsWebORM',
                 sourcemap: true
             },
             {
-                file: 'dist/LsORM.esm.js',
+                file: 'dist/LsWebORM.esm.js',
                 format: 'es',
                 sourcemap: true
             }

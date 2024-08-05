@@ -4,19 +4,19 @@ import { AttributeNotFoundError } from "../errors/AttributeNotFoundError";
 import { TableNotFoundError } from "../errors/TableNotFoundError";
 import { AttributeBadType } from "../errors/AttributeBadType";
 
-export class LsORM extends Ls {
+export class LsWebORM extends Ls {
 
-    private static instance: LsORM;
+    private static instance: LsWebORM;
 
     private constructor(name: string, storage: Storage, schema: Schema) {
 
         super(name, storage, schema);
     }
 
-    public static getInstance(name: string, storage: Storage, schema: Schema): LsORM {
+    public static getInstance(name: string, storage: Storage, schema: Schema): LsWebORM {
 
-        if (!LsORM.instance) LsORM.instance = new LsORM(name, storage, schema);
-        return LsORM.instance;
+        if (!LsWebORM.instance) LsWebORM.instance = new LsWebORM(name, storage, schema);
+        return LsWebORM.instance;
     }
 
     private validateRecord(tableName: string, record: Record): TableSchema {

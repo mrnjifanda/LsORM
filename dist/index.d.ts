@@ -1,2 +1,2 @@
-import { LsORM } from "./core/LsORM";
-export default LsORM;
+import { LsWebORM } from "./core/LsWebORM";
+export default LsWebORM;

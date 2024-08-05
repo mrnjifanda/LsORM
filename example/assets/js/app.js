@@ -1,38 +1,38 @@
 class LocalStorageORM {
     constructor(databaseName, schema) {
-        this.lsORM = LsORM.getInstance(databaseName, localStorage, schema);
+        this.LsWebORM = LsWebORM.getInstance(databaseName, localStorage, schema);
     }
 
     addUser(name) {
-        this.lsORM.insert('users', { name });
+        this.LsWebORM.insert('users', { name });
     }
 
     addBook(title, authorId) {
-        this.lsORM.insert('books', { title, authorId: parseInt(authorId) });
+        this.LsWebORM.insert('books', { title, authorId: parseInt(authorId) });
     }
 
     getUsers() {
-        return this.lsORM.all('users');
+        return this.LsWebORM.all('users');
     }
 
     getBooks() {
-        return this.lsORM.select('books', {}, true); // Populate authors
+        return this.LsWebORM.select('books', {}, true); // Populate authors
     }
 
     updateUser(userId, updatedData) {
-        this.lsORM.update('users', { _id: userId }, updatedData);
+        this.LsWebORM.update('users', { _id: userId }, updatedData);
     }
 
     updateBook(bookId, updatedData) {
-        this.lsORM.update('books', { _id: bookId }, updatedData);
+        this.LsWebORM.update('books', { _id: bookId }, updatedData);
     }
 
     deleteUser(userId) {
-        this.lsORM.delete('users', { _id: userId });
+        this.LsWebORM.delete('users', { _id: userId });
     }
 
     deleteBook(bookId) {
-        this.lsORM.delete('books', { _id: bookId });
+        this.LsWebORM.delete('books', { _id: bookId });
     }
 }
 

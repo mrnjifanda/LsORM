@@ -1,8 +1,8 @@
 {
-    "name": "LsORM",
+    "name": "ls-weborm",
     "version": "1.0.0",
-    "main": "dist/LsORM.js",
-    "module": "dist/LsORM.esm.js",
+    "main": "dist/LsWebORM.js",
+    "module": "dist/LsWebORM.esm.js",
     "types": "dist/index.d.ts",
     "files": [
         "dist"

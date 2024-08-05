@@ -15,7 +15,7 @@ export declare class Ls {
     protected getTable(tableName: string): Record[];
     protected verifyTable(tableName: string): TableSchema | null;
     protected getSettings(): Settings;
-    protected getSchemas(): Schema;
+    getSchemas(): Schema;
     addTable(tableSchema: TableSchema, save?: boolean): void;
     addTables(newTables: Schema, save?: boolean): void;
 }
