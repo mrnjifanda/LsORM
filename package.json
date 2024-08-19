@@ -1,6 +1,6 @@
 {
     "name": "ls-weborm",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "main": "dist/LsWebORM.js",
     "module": "dist/LsWebORM.esm.js",
     "types": "dist/index.d.ts",
@@ -14,6 +14,8 @@
         "build": "rollup -c --bundleConfigAsCjs",
         "watch": "rollup -c -w --bundleConfigAsCjs",
         "prepublishOnly": "npm run build",
+        "login": "npm login",
+        "publish": "npm publish",
         "test": "jest"
     },
     "keywords": [
