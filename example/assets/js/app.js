@@ -62,6 +62,16 @@ const schema = {
     }
 };
 
+// class User {
+
+//     attributes = ['name'];
+//     options = {
+//         autoIncrement: false
+//     };
+// }
+// User.select();
+// books
+
 const db = new LocalStorageORM(databaseName, schema);
 
 // DOM Elements

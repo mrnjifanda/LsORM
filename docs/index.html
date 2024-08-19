@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LsWebORM - Documentation</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1 id="title">LsWebORM</h1>
+        <p id="subtitle">Une bibliothèque JavaScript légère pour la gestion des bases de données locales avec le stockage local.</p>
+    </header>
+
+    <div class="translate">
+        <button class="change-lang" data-lang="fr"><img src="assets/images/fr.svg" alt="USA" height="10"> Français</button>
+        <button class="change-lang" data-lang="en"><img src="assets/images/usa.svg" alt="France" height="10"> English</button>
+    </div>
+
+    <nav>
+        <a href="#installation" id="nav-installation">Installation</a>
+        <a href="#utilisation" id="nav-utilisation">Utilisation</a>
+        <a href="#api" id="nav-api">API</a>
+        <a href="#contributions" id="nav-contributions">Contributions</a>
+        <a href="#licence" id="nav-licence">Licence</a>
+    </nav>
+
+    <section id="installation">
+        <h2 id="install-title">Installation</h2>
+        <p id="install-text">Pour installer LsWebORM via npm :</p>
+        <pre><code>npm install LsWebORM</code></pre>
+        <p id="install-script">Ou inclure directement via un script :</p>
+        <pre><code>&lt;script src="path/to/LsWebORM.js"&gt;&lt;/script&gt;</code></pre>
+    </section>
+
+    <section id="utilisation">
+        <h2 id="usage-title">Utilisation</h2>
+
+        <h3 id="schema-title">Configuration du schéma</h3>
+        <pre><code>const schema = {
+    users: {
+        table: "users",
+        attributes: {
+            name: { type: "string" },
+            email: { type: "string" }
+        },
+        relationships: [
+            { type: "one-to-many", relatedTable: "orders", foreignKey: "userId" }
+        ],
+        autoIncrement: true
+    },
+    orders: {
+        table: "orders",
+        attributes: {
+            product: { type: "string" },
+            quantity: { type: "number" },
+            userId: { type: "number" }
+        },
+        relationships: [
+            { type: "many-to-one", relatedTable: "users", foreignKey: "_id" }
+        ],
+        autoIncrement: true
+    }
+};</code></pre>
+
+        <h3 id="init-title">Initialisation de la base de données</h3>
+        <pre><code>const db = LsWebORM.getInstance("myDatabase", localStorage, schema);</code></pre>
+
+        <h3 id="insert-title">Insertion de données</h3>
+        <pre><code>db.insert("users", { name: "John Doe", email: "john@example.com" });
+
+db.insertMany("orders", [
+    { product: "Laptop", quantity: 1, userId: 1 },
+    { product: "Mouse", quantity: 2, userId: 1 }
+]);</code></pre>
+
+        <h3 id="select-title">Sélection de données</h3>
+        <pre><code>const users = db.all("users");
+
+const userWithOrders = db.selectOne("users", { _id: 1 }, true);</code></pre>
+
+        <h3 id="update-title">Mise à jour de données</h3>
+        <pre><code>db.update("users", { _id: 1 }, { email: "newemail@example.com" });</code></pre>
+
+        <h3 id="delete-title">Suppression de données</h3>
+        <pre><code>db.delete("users", { _id: 1 });</code></pre>
+    </section>
+
+    <section id="api">
+        <h2 id="api-title">API</h2>
+        <p id="api-description">LsWebORM fournit plusieurs méthodes pour gérer la base de données :</p>
+        <ul>
+            <li id="api-instance"><code>getInstance(name, storage, schema)</code> : Retourne une instance unique de LsWebORM.</li>
+            <li id="api-addtable"><code>addTable(tableSchema)</code> : Ajoute une nouvelle table.</li>
+            <li id="api-insert"><code>insert(tableName, record)</code> : Insère un enregistrement.</li>
+            <li id="api-select"><code>select(tableName, query, populate)</code> : Sélectionne des enregistrements.</li>
+            <li id="api-update"><code>update(tableName, query, updates)</code> : Met à jour les enregistrements.</li>
+            <li id="api-delete"><code>delete(tableName, query)</code> : Supprime des enregistrements.</li>
+        </ul>
+    </section>
+
+    <section id="contributions">
+        <h2 id="contrib-title">Contributions</h2>
+        <p id="contrib-text">Les contributions sont les bienvenues! Suivez ces étapes :</p>
+        <ol>
+            <li id="contrib-step1">Forkez le dépôt.</li>
+            <li id="contrib-step2">Créez une branche pour vos modifications.</li>
+            <li id="contrib-step3">Soumettez une pull request.</li>
+        </ol>
+    </section>
+
+    <section id="licence">
+        <h2 id="license-title">Licence</h2>
+        <p id="license-text">Ce projet est sous licence MIT. Voir le fichier <a href="https://github.com/mrnjifanda/LsORM/blob/main/LICENSE.txt">LICENSE</a> pour plus de détails.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 LsWebORM Documentation. Tous droits réservés.</p>
+    </footer>
+
+    <script src="assets/js/app.js"></script>
+</body>
+
+</html>

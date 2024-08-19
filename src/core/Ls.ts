@@ -4,15 +4,16 @@ import { TableNotFoundError } from "../errors/TableNotFoundError";
 import { DecryptError } from "../errors/DecryptError";
 
 export class Ls {
-    private database: StorageData;
-    private cryptData: CryptData;
-    private countTables: number;
+
+    #database: StorageData;
+    #cryptData: CryptData;
+    #countTables: number;
 
     constructor(protected name: string, protected storage: Storage, protected schema: Schema) {
 
-        this.cryptData = CryptData.getInstance('secret-key');
-        this.database = this.initializeDatabase(this.schema);
-        this.countTables = Object.keys(this.schema).length;
+        this.#cryptData = CryptData.getInstance('secret-key');
+        this.#database = this.initializeDatabase(this.schema);
+        this.#countTables = Object.keys(this.schema).length;
     }
 
     private get(): StorageData {
@@ -22,7 +23,7 @@ export class Ls {
 
             try {
 
-                const data: string = this.cryptData.decryptData(value);
+                const data: string = this.#cryptData.decryptData(value);
                 return JSON.parse(data);
             } catch (e) {
 
@@ -47,7 +48,7 @@ export class Ls {
         try {
 
             const parse = JSON.stringify(data);
-            const encrypt = this.cryptData.encryptData(parse);
+            const encrypt = this.#cryptData.encryptData(parse);
             this.storage.setItem(this.name, encrypt);
         } catch (e) {
 
@@ -55,25 +56,58 @@ export class Ls {
         }
     }
 
+    private createPivotTables(): void {
+
+        for (const tableName in this.schema) {
+
+            const tableSchema = this.schema[tableName];
+            if (tableSchema.relationships) {
+
+                tableSchema.relationships.forEach((relationship) => {
+
+                    if (relationship.type === "many-to-many") {
+
+                        const pivotTableName = `${tableName}_${relationship.relatedTable}`;
+                        if (!this.schema[pivotTableName]) {
+
+                            this.schema[pivotTableName] = {
+                                table: pivotTableName,
+                                attributes: {
+                                    [`${tableName}Id`]: { type: "number" },
+                                    [`${relationship.relatedTable}Id`]: { type: "number" }
+                                }
+                            };
+
+                            this.addTable(this.schema[pivotTableName], false);
+                        }
+                    }
+                });
+            }
+        }
+
+        this.saveDatabase();
+    }
+
     private initializeDatabase(schema: Schema): StorageData {
 
-        this.database = this.get();
-        if (this.database.settings.init === false) return this.database;
+        this.#database = this.get();
+        if (this.#database.settings.init === false) return this.#database;
 
-        this.database.settings.init = false;
+        this.#database.settings.init = false;
         this.addTables(schema, false);
-        this.store(this.database);
-        return this.database;
+        this.store(this.#database);
+        this.createPivotTables();
+        return this.#database;
     }
 
     protected getDatabase(): StorageData {
 
-        return this.database;
+        return this.#database;
     }
 
     protected saveDatabase(): void {
 
-        this.store(this.database);
+        this.store(this.getDatabase());
     }
 
     protected getTable(tableName: string): Record[] {
@@ -102,11 +136,11 @@ export class Ls {
         const tableName = tableSchema.table;
 
         if (currentSchema[tableName]) throw new TableNotFoundError(tableName);
-    
+
         currentSchema[tableName] = tableSchema;
         currentDatabase[tableName] = [];
         this.getSettings().last_id[tableName] = 0;
-    
+
         if (save) this.saveDatabase();
     }
 

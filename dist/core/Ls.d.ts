@@ -1,14 +1,13 @@
 import { Record, TableSchema, Schema, Settings, StorageData } from "../types/types";
 export declare class Ls {
+    #private;
     protected name: string;
     protected storage: Storage;
     protected schema: Schema;
-    private database;
-    private cryptData;
-    private countTables;
     constructor(name: string, storage: Storage, schema: Schema);
     private get;
     private store;
+    private createPivotTables;
     private initializeDatabase;
     protected getDatabase(): StorageData;
     protected saveDatabase(): void;

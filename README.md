@@ -1,6 +1,6 @@
 # LsWebORM
 
-LsWebORM est une bibliothèque JavaScript légère pour la gestion de bases de données locales utilisant le stockage local (localStorage) du navigateur. Elle permet de définir un schéma de base de données, d'insérer, de mettre à jour, de supprimer et de sélectionner des enregistrements, tout en supportant les relations entre les tables (comme `one-to-one` et `one-to-many`). LsWebORM est particulièrement utile pour des applications front-end légères ou des prototypes nécessitant une gestion simple des données.
+LsWebORM est une bibliothèque JavaScript légère pour la gestion de bases de données locales utilisant le stockage local (localStorage) du navigateur. Elle permet de définir un schéma de base de données, d'insérer, de mettre à jour, de supprimer et de sélectionner des enregistrements, tout en supportant les relations entre les tables (comme `one-to-one`, `one-to-many`, `many-to-one` et `many-to-many`). LsWebORM est particulièrement utile pour des applications front-end légères ou des prototypes nécessitant une gestion simple des données.
 
 ## Table des matières
 
@@ -25,6 +25,18 @@ LsWebORM est une bibliothèque JavaScript légère pour la gestion de bases de d
 npm install LsWebORM
 ```
 
+Vous pouvez aussi utilisé un des CDN directement sur votre page:
+
+```javascript
+  // jsdelivr
+  <script src="https://cdn.jsdelivr.net/npm/ls-weborm/dist/LsWebORM.js"></script>
+
+  // OR
+
+  // UNPKG
+  <script src="https://unpkg.com/ls-weborm/dist/LsWebORM.js"></script>
+```
+
 Vous pouvez également inclure LsWebORM directement via un script dans votre fichier HTML si vous ne souhaitez pas utiliser un gestionnaire de paquets.
 
 ```html
@@ -42,7 +54,6 @@ const schema: Schema = {
   users: {
     table: "users",
     attributes: {
-      id: { type: "number" },
       name: { type: "string" },
       email: { type: "string" },
     },
@@ -58,7 +69,6 @@ const schema: Schema = {
   orders: {
     table: "orders",
     attributes: {
-      id: { type: "number" },
       product: { type: "string" },
       quantity: { type: "number" },
       userId: { type: "number" },
@@ -67,11 +77,37 @@ const schema: Schema = {
       {
         type: "many-to-one",
         relatedTable: "users",
-        foreignKey: "userId",
+        foreignKey: "_id",
       },
     ],
     autoIncrement: true,
   },
+  articles: {
+    table: "articles",
+    attributes: {
+      title: { type: "string" },
+      content: { type: "string" },
+      usersId: { type: "number" }
+    },
+    relationships: [
+      {
+        type: "many-to-one",
+        relatedTable: "users"
+      },
+      {
+        type: "many-to-many",
+        relatedTable: "tags"
+      }
+    ],
+    autoIncrement: true
+  },
+  tags: {
+    table: "tags",
+    attributes: {
+      name: { type: "string" },
+    },
+    autoIncrement: true
+  }
 };
 ```
 
@@ -100,6 +136,18 @@ db.insertMany("orders", [
 ]);
 ```
 
+Pour les tables avec les relations **many-to-many**, il faut utiliser la methode **insertManyToMany** :
+
+```typescript
+db.insertManyToMany("articles", { title: "Understanding Relationships", content: "Content about relationships.", usersId: 1 }, "tags", [1, 2]); // Article 1 avec les tags qui ont pour id 1 et 2
+```
+
+Si vous voulez rejouter un nouveau tag à un article qui existe déjà, vous pouvez suivre cette exemple:
+
+```typescript
+db.addManyToManyRelation("articles", 1, "tags", [3, 5]); // 1 represente l'id de l'article et [3, 5] les id des tags a rajoutés.
+```
+
 ### Sélection de données
 
 Vous pouvez sélectionner des enregistrements à partir d'une table, avec la possibilité de récupérer les relations associées.
@@ -112,7 +160,7 @@ const users = db.all("users");
 const users = db.select("users");
 
 // Sélection d'un utilisateur avec ses commandes associées
-const userWithOrders = db.selectOne("users", { id: 1 }, true);
+const userWithOrders = db.selectOne("users", { _id: 1 }, true);
 ```
 
 ### Mise à jour de données
@@ -120,7 +168,7 @@ const userWithOrders = db.selectOne("users", { id: 1 }, true);
 Vous pouvez mettre à jour des enregistrements existants.
 
 ```typescript
-db.update("users", { id: 1 }, { email: "newemail@example.com" });
+db.update("users", { _id: 1 }, { email: "newemail@example.com" });
 ```
 
 ### Suppression de données
@@ -164,7 +212,7 @@ db.addTables({
 Vous pouvez ajouter une ou plusieurs tables dans votre base de données.
 
 ```typescript
-db.delete("users", { id: 1 });
+db.delete("users", { _id: 1 });
 ```
 
 ### Gestion des relations
@@ -173,6 +221,8 @@ LsWebORM permet de gérer les relations entre les tables et de peupler les enreg
 
 - **one-to-one** : Un enregistrement dans une table correspond à un seul enregistrement dans une autre table.
 - **one-to-many** : Un enregistrement dans une table correspond à plusieurs enregistrements dans une autre table.
+- **many-to-one** : Plusieurs enregistrements dans une table correspond à un seul enregistrement dans une autre table.
+- **many-to-many** : Plusieurs enregistrements dans une autre table correspond à plusieurs enregistrements dans une autre table.
 
 ## API
 
@@ -183,6 +233,8 @@ LsWebORM permet de gérer les relations entre les tables et de peupler les enreg
 - `addTables(newTables: Schema): void` : Insère plusieurs nouvelles tables dans la base de donnée.
 - `insert(tableName: string, record: Record): void` : Insère un enregistrement dans la table.
 - `insertMany(tableName: string, records: Record[]): void` : Insère plusieurs enregistrements dans la table.
+- `insertManyToMany(tableName: string, record: Record, relatedTableName: string, relatedIds: number[]): void` : Insère un enregistrement avec une relation **many-to-many**
+- `addManyToManyRelation(tableName: string, recordId: number, relatedTableName: string, relatedIds: number[]): void` : Insère de nouveau(x) à une relation **many-to-many**
 - `all(tableName: string): Record[]` : Sélectionne tous les enregistrements d'une table.
 - `select(tableName: string, query: Record, populate?: boolean): Record[]` : Sélectionne plusieurs enregistrements en fonction du critère.
 - `selectOne(tableName: string, query: Record, populate?: boolean): Record | null` : Sélectionne un seul enregistrement.
@@ -206,19 +258,24 @@ LsWebORM permet de gérer les relations entre les tables et de peupler les enreg
 
 Les contributions sont les bienvenues! Si vous souhaitez contribuer, veuillez suivre les étapes suivantes:
 
-1. Forkez le dépôt.
+1. [Forkez le dépôt](https://github.com/mrnjifanda/LsORM/).
 2. Créez une branche pour vos modifications.
 3. Soumettez une pull request pour examen.
 
 ### A faire
 
-- Ajouter le lien de la LICENSE open source
-- Prendre en compte les relations many-to-one et many-to-many
+- Prise en charge des tableaux et ojects
 - Ajouter la modification des tables
+- Recherche dans les tableaux
+- Rajouter le support des objects
+
+### CHANGELOG
+
+[Voire toutes les modifications et les mises à jours ici](https://github.com/mrnjifanda/LsORM/blob/main/CHANGELOG.md)
 
 ## Licence
 
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](http://www.google.com) pour plus de détails.
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](https://github.com/mrnjifanda/LsORM/blob/main/LICENSE.txt) pour plus de détails.
 
 ##
 

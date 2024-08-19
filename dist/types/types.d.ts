@@ -1,5 +1,5 @@
 export type AttributeType = 'string' | 'number' | 'boolean' | 'object' | 'array';
-export type RelationshipType = 'one-to-one' | 'one-to-many';
+export type RelationshipType = 'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many';
 export interface AttributeSchema {
     readonly type?: AttributeType;
 }
@@ -7,7 +7,8 @@ export interface Relationship {
     readonly type: RelationshipType;
     readonly relatedTable: string;
     readonly localKey?: string;
-    readonly foreignKey: string;
+    readonly foreignKey?: string;
+    readonly pivotTable?: string;
 }
 export interface TableSchema {
     readonly table: string;
