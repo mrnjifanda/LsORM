@@ -17,7 +17,8 @@ LsWebORM est une bibliothèque JavaScript légère pour la gestion de bases de d
    - [Méthodes principales](#méthodes-principales)
    - [Types](#types)
 4. [Contributions](#contributions)
-5. [Licence](#licence)
+5. [CHANGELOG](#changelog)
+6. [Licence](#licence)
 
 ## Installation
 
